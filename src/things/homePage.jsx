@@ -41,7 +41,7 @@ const HomePage = () => (
               time compared to your age.
             </p>
             <Link
-              to="/mental-age"
+              to="/mentalage"
               className="btn btn-primary btn-sm btn-block normal-case mt-1"
             >
               Start test
