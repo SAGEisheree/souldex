@@ -8,9 +8,21 @@ const HomePage = () => (
       <div className="flex-1">
         <span className="text-lg font-bold tracking-tight">Souldex</span>
       </div>
-      <div className="hidden flex-none gap-2 md:flex">
-        <button className="btn btn-ghost btn-sm normal-case">Tests</button>
-        <Link to="/about" className="btn btn-ghost btn-sm normal-case">About</Link>
+      <div className="flex-none gap-2">
+        <button className="btn btn-ghost btn-sm normal-case hidden md:block">Tests</button>
+        <Link to="/about" className="btn btn-ghost btn-sm normal-case hidden md:block">About</Link>
+        {/* Mobile menu button */}
+        <div className="dropdown dropdown-end md:hidden">
+          <label tabIndex={0} className="btn btn-ghost btn-sm btn-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </label>
+          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li><button className="btn btn-ghost btn-sm normal-case">Tests</button></li>
+            <li><Link to="/about" className="btn btn-ghost btn-sm normal-case">About</Link></li>
+          </ul>
+        </div>
       </div>
     </nav>
 
@@ -18,8 +30,8 @@ const HomePage = () => (
     <main className="mx-auto max-w-5xl space-y-8 px-4 pb-8 pt-10">
       {/* Header */}
       <section className="space-y-2 text-center md:text-left">
-        <h2 className="text-3xl font-bold tracking-tight">Available tests</h2>
-        <p className="text-sm text-base-content/70">
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Available tests</h2>
+        <p className="text-sm md:text-base text-base-content/70">
           Short, simple checks about mood, personality, and how you&apos;re
           doing lately.
         </p>

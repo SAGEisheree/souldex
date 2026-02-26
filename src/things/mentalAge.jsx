@@ -23,7 +23,7 @@ const MentalAge = () => {
       </nav>
 
 
-      <div className='ml-[50vh]  mr-[50vh]'>
+      <div className=''>
         <MentalForm />
       </div>
 
