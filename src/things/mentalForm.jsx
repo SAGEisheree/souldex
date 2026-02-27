@@ -1,15 +1,17 @@
 import React from 'react'
 import { useState } from 'react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
+import { useNavigate } from 'react-router-dom';
 
 const MentalForm = () => {
-const quizData = [
+
+  const navigate = useNavigate();
+  const quizData = [
     {
       id: 1,
       question: "Which planet is known as the Red Planet?",
       options: ["Earth", "Mars", "Jupiter", "Saturn"],
-      
+
     },
     {
       id: 2,
@@ -39,11 +41,11 @@ const quizData = [
       }
     ];
 
-      const updatedAnswers = [...allAnswers, currentAnswer]
+    const updatedAnswers = [...allAnswers, currentAnswer]
 
     if (isLastQuestion) {
       console.log("Final Submission");
-      console.log(updatedAnswers);
+      navigate('/mentalsubmit', { state: { results: updatedAnswers } });
     } else {
       setAllAnswers(updatedAnswers)
       setCurrentIndex(prev => prev + 1);
@@ -57,7 +59,7 @@ const quizData = [
       {/* DaisyUI Card Component */}
       <div className="card  bg-base-100 shadow-xl border border-base-300">
         <div className="card-body">
-          
+
           {/* Progress badge */}
           <div className="flex justify-between items-center mb-4">
             <span className="badge badge-primary badge-outline font-mono">
@@ -71,11 +73,10 @@ const quizData = [
           {/* Options List */}
           <div className="form-control space-y-2">
             {current.options.map((option, idx) => (
-              <label 
-                key={idx} 
-                className={`label cursor-pointer p-3 md:p-4 rounded-lg border border-base-300 transition-colors hover:bg-base-200 ${
-                  selectedAnswer === option ? "bg-base-200 border-primary shadow-inner" : ""
-                }`}
+              <label
+                key={idx}
+                className={`label cursor-pointer p-3 md:p-4 rounded-lg border border-base-300 transition-colors hover:bg-base-200 ${selectedAnswer === option ? "bg-base-200 border-primary shadow-inner" : ""
+                  }`}
               >
                 <span className="label-text text-sm md:text-base font-medium">{option}</span>
                 <input
@@ -91,17 +92,16 @@ const quizData = [
 
           {/* Action Button */}
           <div className="card-actions mt-8">
-           
+
             <button
               onClick={handleNext}
               disabled={!selectedAnswer}
-              className={`btn btn-block shadow-md ${
-                isLastQuestion ? "btn-success" : "btn-primary"
-              }`}
-              >
+              className={`btn btn-block shadow-md ${isLastQuestion ? "btn-success" : "btn-primary"
+                }`}
+            >
               {isLastQuestion ? "Submit Answer" : "Next Question"}
             </button>
-            
+
           </div>
 
         </div>
