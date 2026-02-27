@@ -7,23 +7,57 @@ const MentalForm = () => {
 
   const navigate = useNavigate();
   const quizData = [
-    {
-      id: 1,
-      question: "Which planet is known as the Red Planet?",
-      options: ["Earth", "Mars", "Jupiter", "Saturn"],
-
-    },
-    {
-      id: 2,
-      question: "What is the capital of France?",
-      options: ["Berlin", "London", "Paris", "Madrid"],
-    },
-    {
-      id: 3,
-      question: "Which element has the chemical symbol 'O'?",
-      options: ["Gold", "Oxygen"],
-    }
-  ];
+  {
+    id: 1,
+    question: "When someone criticizes your work, how do you typically respond?",
+    options: ["Get defensive", "Ignore it", "Reflect on it", "Ask for tips"]
+  },
+  {
+    id: 2,
+    question: "Do you find it easy to delay a small reward now for a much bigger one later?",
+    options: ["Yes", "No"]
+  },
+  {
+    id: 3,
+    question: "How do you react when a plan you were excited about is suddenly canceled?",
+    options: ["Get angry", "Feel sad", "Accept it", "Find an alternative"]
+  },
+  {
+    id: 4,
+    question: "Do you often find yourself blaming 'bad luck' or others for your mistakes?",
+    options: ["Yes", "No"]
+  },
+  {
+    id: 5,
+    question: "When in a heated argument, do you try to understand the other person’s view?",
+    options: ["Yes", "No"]
+  },
+  {
+    id: 6,
+    question: "How do you handle a boring but necessary task like chores or paperwork?",
+    options: ["Avoid it", "Complain", "Do it fast", "Schedule it"]
+  },
+  {
+    id: 7,
+    question: "Do you make major life decisions based on your current mood?",
+    options: ["Yes", "No"]
+  },
+  {
+    id: 8,
+    question: "How much do you rely on the approval of others to feel good about yourself?",
+    options: ["Always", "Often", "Rarely", "Never"]
+  },
+  {
+    id: 9,
+    question: "Can you admit you are wrong even if no one else noticed the mistake?",
+    options: ["Yes", "No"]
+  },
+  {
+    id: 10,
+    question: "When facing a crisis, what is your first instinct?",
+    options: ["Panic", "Ask for help", "Think first", "Take action"]
+  }
+];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");

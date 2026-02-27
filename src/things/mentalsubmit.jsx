@@ -1,46 +1,85 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-// 1. Notice the new import name
+import { useLocation, useNavigate } from 'react-router-dom'; // 👈 Added useNavigate
 import { GoogleGenAI } from "@google/genai";
+import ReactMarkdown from 'react-markdown';
 
 const MentalSubmit = () => {
   const location = useLocation();
-  const quizData = location.state;
+  const navigate = useNavigate(); // 👈 1. Initialize navigate
+  const quizData = location.state; 
+
   const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 2. Initialize with the new 2026 syntax
   const ai = new GoogleGenAI({
     apiKey: import.meta.env.VITE_GEMINI_API_KEY
   });
 
   const analyzeData = async () => {
-    if (!quizData || analysis) return;
+    // If quizData is already cleared or analysis is done, stop.
+    if (!quizData || analysis || loading) return;
+    
     setLoading(true);
-
     try {
-      // 3. Use the new models.generateContent syntax
+      const customPrompt = `
+        
+        Review the following quiz results: ${JSON.stringify(quizData.results)}
+        
+      on the basis of this data give the name estimate the mental age of the person 
+
+      give the response in short 
+
+       use Markdown for formatting.
+      `;
+
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview", // The 2026 high-speed model
-        contents: `Analyze these quiz results: ${JSON.stringify(quizData.results)}`
+        model: "gemini-3-flash-preview",
+        contents: customPrompt
       });
 
-      setAnalysis(response.text); // In the new SDK, it's just .text (not a function)
+      if (response && response.text) {
+        setAnalysis(response.text);
+      }
     } catch (error) {
-      console.error("New SDK Error:", error);
-      setAnalysis("The new Gemini 3 model is currently busy. Try again in a moment.");
+      console.error("Analysis failed:", error);
+      setAnalysis("Error connecting to Gemini 3.");
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    analyzeData();
-  }, [quizData]);
+    if (quizData) {
+      // 2. Run analysis
+      analyzeData();
+
+      // 3. Clear the state from browser history immediately
+      // This ensures if the user reloads, location.state is null.
+      navigate(location.pathname, { replace: true, state: null });
+    }
+  }, [quizData]); // Only depends on quizData
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">Gemini 3 Analysis</h1>
-      {loading ? <p>Thinking with Gemini 3...</p> : <div className="mt-4">{analysis}</div>}
+    <div className="mt-4 p-8 max-w-2xl mx-auto">
+      {loading ? (
+        <div className="flex flex-col items-center">
+          <span className="loading loading-spinner loading-lg text-primary"></span>
+          <p className="mt-2 animate-pulse">Gemini is analyzing your quizData...</p>
+        </div>
+      ) : analysis ? ( // Show analysis if it exists
+        <div className="prose prose-slate max-w-none bg-base-100 p-6 rounded-xl shadow-md border border-base-300">
+          <ReactMarkdown>{analysis}</ReactMarkdown>
+        </div>
+      ) : ( // If no analysis and not loading, it means the page was reloaded
+        <div className="text-center py-10">
+          <p className="text-lg opacity-70">No data found. The session has expired or the page was refreshed.</p>
+          <button 
+            onClick={() => navigate('/')} 
+            className="btn btn-primary mt-4"
+          >
+            Go Back to Quiz
+          </button>
+        </div>
+      )}
     </div>
   );
 };
