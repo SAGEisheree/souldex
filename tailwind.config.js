@@ -1,5 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+import { useState } from 'react'
+
+
+const colors = ["#ece3ca"]
+
 export default {
+
+  
+
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,41 +15,13 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")], // 1. Make sure this is here
+  plugins: [
+    require("daisyui") // Change to require
+  ],
   daisyui: {
-    themes: [
-      "light",
-      "dark",
-      "cupcake",
-      "bumblebee",
-      "emerald",
-      "corporate",
-      "synthwave",
-      "retro",
-      "cyberpunk",
-      "valentine",
-      "halloween",
-      "garden",
-      "forest",
-      "aqua",
-      "lofi",
-      "pastel",
-      "fantasy",
-      "wireframe",
-      "black",
-      "luxury",
-      "dracula",
-      "cmyk",
-      "autumn",
-      "business",
-      "acid",
-      "lemonade",
-      "night",
-      "coffee",
-      "winter",
-      "dim",
-      "nord",
-      "sunset",
-    ], // 2. Add 'retro' to the list
+      themes: ["retro","cyberpunk","aqua","lofi"
+        
+      ]
+ 
   },
 }
