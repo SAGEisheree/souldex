@@ -20,7 +20,7 @@ export default {
     require("daisyui") // Change to require
   ],
   daisyui: {
-      themes: ["retro","cyberpunk","aqua","lofi","lemonade"
+      themes: ["retro","coffee","aqua","lofi","lemonade"
         
       ]
  

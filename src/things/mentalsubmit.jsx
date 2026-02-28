@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'; 
-import { GoogleGenAI } from "@google/genai";
 import ReactMarkdown from 'react-markdown';
 
 const MentalSubmit = () => {
@@ -11,37 +10,27 @@ const MentalSubmit = () => {
   const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const ai = new GoogleGenAI({
-    apiKey: import.meta.env.VITE_GEMINI_API_KEY
-  });
-
   const analyzeData = async () => {
     if (!quizData || analysis || loading) return;
     
     setLoading(true);
     try {
-      const customPrompt = `
-        
-        Review the following quiz results: ${JSON.stringify(quizData.results)}
-        
-      on the basis of this data give the name estimate the mental age of the person 
-
-      give the response in short 
-
-       use Markdown for formatting.
-      `;
-
-      const response = await ai.models.generateContent({
-        model: "gemma-3-12b-it",
-        contents: customPrompt
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quizData: quizData })
       });
 
-      if (response && response.text) {
-        setAnalysis(response.text);
+      const data = await response.json();
+
+      if (data.text) {
+        setAnalysis(data.text);
+      } else {
+        throw new Error(data.error || "Unknown error");
       }
     } catch (error) {
       console.error("Analysis failed:", error);
-      setAnalysis("Error connecting to Gemini 3 or daily quote exceeded");
+      setAnalysis("Error: Could not reach the analysis server.");
     }
     setLoading(false);
   };
@@ -49,7 +38,6 @@ const MentalSubmit = () => {
   useEffect(() => {
     if (quizData) {
       analyzeData();
-
       navigate(location.pathname, { replace: true, state: null });
     }
   }, [quizData]);
@@ -59,7 +47,7 @@ const MentalSubmit = () => {
       {loading ? (
         <div className="flex flex-col items-center">
           <span className="loading loading-spinner loading-lg text-primary"></span>
-          <p className="mt-2 animate-pulse">Gemini is analyzing your quizData...</p>
+          <p className="mt-2 animate-pulse">Estimating your age ... </p>
         </div>
       ) : analysis ? ( 
         <div className="prose prose-slate max-w-none bg-base-100 p-6 rounded-xl shadow-md border border-base-300">
@@ -68,10 +56,7 @@ const MentalSubmit = () => {
       ) : ( 
         <div className="text-center py-10">
           <p className="text-lg opacity-70">No data found. The session has expired or the page was refreshed.</p>
-          <button 
-            onClick={() => navigate('/')} 
-            className="btn btn-primary mt-4"
-          >
+          <button onClick={() => navigate('/')} className="btn btn-primary mt-4">
             Go Back to Quiz
           </button>
         </div>
