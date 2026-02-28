@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // 👈 Added useNavigate
+import { useLocation, useNavigate } from 'react-router-dom'; 
 import { GoogleGenAI } from "@google/genai";
 import ReactMarkdown from 'react-markdown';
 
 const MentalSubmit = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // 👈 1. Initialize navigate
+  const navigate = useNavigate(); 
   const quizData = location.state; 
 
   const [analysis, setAnalysis] = useState("");
@@ -16,7 +16,6 @@ const MentalSubmit = () => {
   });
 
   const analyzeData = async () => {
-    // If quizData is already cleared or analysis is done, stop.
     if (!quizData || analysis || loading) return;
     
     setLoading(true);
@@ -33,7 +32,7 @@ const MentalSubmit = () => {
       `;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemma-3-12b-it",
         contents: customPrompt
       });
 
@@ -42,21 +41,18 @@ const MentalSubmit = () => {
       }
     } catch (error) {
       console.error("Analysis failed:", error);
-      setAnalysis("Error connecting to Gemini 3.");
+      setAnalysis("Error connecting to Gemini 3 or daily quote exceeded");
     }
     setLoading(false);
   };
 
   useEffect(() => {
     if (quizData) {
-      // 2. Run analysis
       analyzeData();
 
-      // 3. Clear the state from browser history immediately
-      // This ensures if the user reloads, location.state is null.
       navigate(location.pathname, { replace: true, state: null });
     }
-  }, [quizData]); // Only depends on quizData
+  }, [quizData]);
 
   return (
     <div className="mt-4 p-8 max-w-2xl mx-auto">
@@ -65,11 +61,11 @@ const MentalSubmit = () => {
           <span className="loading loading-spinner loading-lg text-primary"></span>
           <p className="mt-2 animate-pulse">Gemini is analyzing your quizData...</p>
         </div>
-      ) : analysis ? ( // Show analysis if it exists
+      ) : analysis ? ( 
         <div className="prose prose-slate max-w-none bg-base-100 p-6 rounded-xl shadow-md border border-base-300">
           <ReactMarkdown>{analysis}</ReactMarkdown>
         </div>
-      ) : ( // If no analysis and not loading, it means the page was reloaded
+      ) : ( 
         <div className="text-center py-10">
           <p className="text-lg opacity-70">No data found. The session has expired or the page was refreshed.</p>
           <button 

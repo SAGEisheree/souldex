@@ -10,7 +10,7 @@ const HomePage = () => (
       </div>
       <div className="flex-none gap-2">
         <button className="btn btn-ghost btn-sm normal-case hidden md:block">Tests</button>
-        <Link to="/about" className="btn btn-ghost btn-sm normal-case hidden md:block">About</Link>
+        <Link to="/about" className="btn btn-ghost pt-2 btn-sm normal-case hidden md:block">About</Link>
         {/* Mobile menu button */}
         <div className="dropdown dropdown-end md:hidden">
           <label tabIndex={0} className="btn btn-ghost btn-sm btn-circle">
@@ -32,7 +32,7 @@ const HomePage = () => (
       <section className="space-y-2 text-center md:text-left">
         <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Available tests</h2>
         <p className="text-sm md:text-base text-base-content/70">
-          Short, simple checks about mood, personality, and how you&apos;re
+          Short, simple checks about mood, personality,mental age and how you&apos;re
           doing lately.
         </p>
       </section>

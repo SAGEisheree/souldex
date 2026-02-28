@@ -11,7 +11,7 @@ const About = () => {
         </div>
         <div className="flex-none gap-2">
           <button className="btn btn-ghost btn-sm normal-case hidden md:block">Tests</button>
-          <Link to="/" className="btn btn-ghost btn-sm normal-case hidden md:block">Home</Link>
+          <Link to="/" className="btn btn-ghost btn-sm normal-case pt-2 hidden md:block">Home</Link>
           {/* Mobile menu button */}
           <div className="dropdown dropdown-end md:hidden">
             <label tabIndex={0} className="btn btn-ghost btn-sm btn-circle">
