@@ -7,12 +7,16 @@ import MentalSubmit from "./things/mentalsubmit.jsx";
 
 const App = () => {
   return (
+<>
+
+
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/mentalage" element={<MentalAge />}/>
       <Route path="/mentalsubmit" element={<MentalSubmit />} />
       <Route path="/about" element={<About />} />
     </Routes>
+</>
   );
 };
 
