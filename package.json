@@ -15,6 +15,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "daisyui": "^4.12.24",
     "groq-sdk": "^0.37.0",
+    "html-to-image": "^1.11.13",
     "openai": "^6.25.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

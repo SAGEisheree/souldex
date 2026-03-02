@@ -1,20 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; 
+import { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { Link } from "react-router-dom";
-
+import { toBlob } from 'html-to-image';
 
 const MentalSubmit = () => {
   const location = useLocation();
-  const navigate = useNavigate(); 
-  const quizData = location.state; 
+  const navigate = useNavigate();
+
+  const [quizData] = useState(location.state);
 
   const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
+  const compoRef = useRef(null);
 
   const analyzeData = async () => {
     if (!quizData || analysis || loading) return;
-    
+
     setLoading(true);
     try {
       const response = await fetch('/api/generate', {
@@ -27,60 +28,96 @@ const MentalSubmit = () => {
 
       if (data.text) {
         setAnalysis(data.text);
+
+        navigate(location.pathname, { replace: true, state: null });
       } else {
-        throw new Error(data.error || "Unknown error");
+        throw new Error(data.error || "Daily limit reached on server.");
       }
     } catch (error) {
       console.error("Analysis failed:", error);
-      setAnalysis("Error: Could not reach the analysis server.");
+      setAnalysis(`### ⚠️ Analysis Failed\n${error.message}. Please try again tomorrow.`);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     if (quizData) {
       analyzeData();
-      navigate(location.pathname, { replace: true, state: null });
     }
   }, [quizData]);
 
+  const handleShare = async () => {
+    if (!compoRef.current) return;
+
+    try {
+      const blob = await toBlob(compoRef.current, {
+        cacheBust: true,
+        backgroundColor: '#00bee6',
+      });
+
+      const file = new File([blob], 'souldex-result.png', { type: 'image/png' });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: 'My Souldex Result',
+          text: 'Check out my mental age analysis!',
+        });
+      } else {
+        const link = document.createElement('a');
+        link.download = 'souldex-result.png';
+        link.href = URL.createObjectURL(blob);
+        link.click();
+      }
+    } catch (err) {
+      console.error('Sharing failed', err);
+    }
+  };
+
   return (
-    <div>
+    <div className="relative min-h-screen pb-20">
+      <div className="-z-10 absolute opacity-50 inset-0 bg-[linear-gradient(to_right,#ffffff99_1px,transparent_1px),linear-gradient(to_bottom,#ffffff99_1px,transparent_1px)] bg-[size:60px_60px]"></div>
 
-              <div className="-z-10 absolute opacity-50 inset-0 bg-[linear-gradient(to_right,#ffffff99_1px,transparent_1px),linear-gradient(to_bottom,#ffffff99_1px,transparent_1px)] bg-[size:60px_60px]">
+      <nav className="navbar mx-auto max-w-5xl px-4 py-6">
+        <div className="flex-1">
+          <span className="text-4xl font-black tracking-tighter uppercase">Souldex</span>
+        </div>
+      </nav>
+
+      <div className="mt-4 p-4 max-w-2xl mx-auto">
+        <div id="compo" ref={compoRef} className="bg-transparent p-2">
+          {loading ? (
+            <div className="flex flex-col items-center py-20">
+              <span className="loading loading-spinner loading-lg text-white"></span>
+              <p className="mt-4 text-white font-bold animate-pulse">Calculating your age...</p>
+            </div>
+          ) : analysis ? (
+            <div className="prose prose-slate max-w-none bg-cyan-600/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/20">
+              <h1 className="text-2xl font-black text-primary mb-2">My Mental age by souldex- </h1>
+              <div className="h-1 w-20 bg-primary mb-6 rounded-full"></div>
+              <ReactMarkdown>{analysis}</ReactMarkdown>
+
+            <div className='mt-10 border-black border-t-2 w-fill text-2xl'>Test Your Mental age at [ souldex.vercel.app ]
+            </div>
+            </div>
+          ) : (
+            <div className="text-center py-10 bg-white/20 rounded-3xl backdrop-blur-md">
+              <p className="text-lg text-white font-medium">Session expired or no data found.</p>
+              <button onClick={() => navigate('/')} className="btn btn-primary mt-4">Start New Quiz</button>
+            </div>
+          )}
+        </div>
+
+        {analysis && !loading && (
+          <div className="mt-8 flex justify-center">
+            <button onClick={handleShare} className="btn btn-black btn-wide rounded-full shadow-xl gap-3 text-lg py-4 bg-cyan-600/20 h-auto">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" /></svg>
+              Share Results
+            </button>
           </div>
-    {/* Navbar - Kept transparent to let the blue shine through */}
-    <nav className="navbar mx-auto max-w-5xl px-4 py-6">
-      <div className="flex-1">
-        <span className="text-4xl font-black tracking-tighter uppercase drop-shadow-sm">Souldex</span>
+        )}
       </div>
-      <div className="flex-none gap-4">
-        <button className="btn btn-ghost btn-sm normal-case hidden md:flex text-xl hover:bg-white/10">Tests</button>
-        <Link to="/about" className="btn btn-ghost btn-sm normal-case hidden md:flex text-xl hover:bg-white/10">About</Link>
-        </div>
-</nav>
-
-    <div className="mt-4 p-8 max-w-2xl mx-auto">
-
-      
-      {loading ? (
-        <div className="flex flex-col items-center">
-          <span className="loading loading-spinner loading-lg text-primary"></span>
-          <p className="mt-2 animate-pulse">Estimating your age ... </p>
-        </div>
-      ) : analysis ? ( 
-        <div className="prose prose-slate max-w-none bg-base-100 p-6 rounded-xl shadow-md border border-base-300">
-          <ReactMarkdown>{analysis}</ReactMarkdown>
-        </div>
-      ) : ( 
-        <div className="text-center py-10">
-          <p className="text-lg opacity-70">No data found. The session has expired or the page was refreshed.</p>
-          <button onClick={() => navigate('/')} className="btn btn-primary mt-4">
-            Go Back to Quiz
-          </button>
-        </div>
-      )}
-    </div>
     </div>
   );
 };
