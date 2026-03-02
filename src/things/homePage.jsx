@@ -4,16 +4,14 @@ import lala from "../assets/lala.svg"
 import navBorder from "../assets/navBorder.svg"
 
 const HomePage = () => (
-  /* Apply the theme name here or in your HTML tag */
   <div className="relative min-h-screen bg-base-100  " data-theme="souldexTheme">
 
 
-        <div className="absolute opacity-50 inset-0 bg-[linear-gradient(to_right,#ffffff99_1px,transparent_1px),linear-gradient(to_bottom,#ffffff99_1px,transparent_1px)] bg-[size:60px_60px]">
+        <div className="-z-10 absolute opacity-50 inset-0 bg-[linear-gradient(to_right,#ffffff99_1px,transparent_1px),linear-gradient(to_bottom,#ffffff99_1px,transparent_1px)] bg-[size:60px_60px]">
     </div>
 
 
 
-    {/* Navbar - Kept transparent to let the blue shine through */}
     <nav className="navbar  mx-auto max-w-5xl px-4 py-6">
       <div className="flex-1">
         <span className="text-4xl font-black tracking-tighter uppercase drop-shadow-sm">Souldex</span>
@@ -48,7 +46,7 @@ const HomePage = () => (
           Test your personality
         </h2>
         <p className="text-lg md:text-xl max-w-xl font-medium">
-          Short, simple checks about mood, personality, and mental age. Discover your <span className="italic underline underline-offset-4 decoration-white/40">quizData</span> insights.
+          Short, simple checks about mood, personality, and mental age. Discover your insights based on AI powered <span className="italic underline underline-offset-4 decoration-white/40">quiz</span> .
         </p>
       </section>
 
@@ -88,6 +86,44 @@ const HomePage = () => (
             </div>
           </div>
         </article>
+
+
+
+
+
+          <article className="card bg-teal-300/30 backdrop-blur-md border border-white/20 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1 overflow-hidden">
+          <div className="card-body gap-4 p-8 relative">
+
+            <div className="flex items-center gap-4">
+              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-300 text-3xl shadow-inner">
+                ?
+              </span>
+              <h3 className="text-xl font-bold ">?????</h3>
+            </div>
+
+            <p className="text-s text-blue-900 leading-relaxed">
+               Coming soon !!!  ..........................
+            </p>
+
+            <img
+              src={lala}
+              alt=""
+              className="absolute bottom-0 left-0 w-full opacity-10 -z-10 "
+            />
+
+            <div className="card-actions mt-4">
+              <Link
+                className="btn btn-primary btn-md btn-block rounded-xl font-bold shadow-lg hover:scale-105 transition-transform"
+              >
+                Start test
+              </Link>
+            </div>
+          </div>
+        </article>
+
+
+
+
 
         {/* Add more cards here following the same 'article' pattern */}
 

@@ -89,7 +89,7 @@ const MentalForm = () => {
   };
 
   return (
-    <div className="flex justify-center  p-4 md:p-8">
+    <div className="flex justify-center  p-4 max-md:p-3 md:p-8">
       {/* DaisyUI Card Component */}
       <div className="card  bg-base-100 shadow-xl border border-base-300">
         <div className="card-body">
