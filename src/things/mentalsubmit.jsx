@@ -51,34 +51,51 @@ const MentalSubmit = () => {
 const handleShare = async () => {
   if (!compoRef.current) return;
 
+  // Use a simple alert or toast here instead of a complex state change 
+  // to keep the "User Activation" alive.
+  
   try {
+    // 1. Generate the Blob INSTANTLY
     const blob = await toBlob(compoRef.current, {
-      cacheBust: true,
-      backgroundColor: '#00bee6', // Force your theme color
-      pixelRatio: 2, // Improves image quality for social media
+      pixelRatio: 1, // 1 is fastest. If this works, we can try 1.5 later.
+      skipFonts: false, // Ensures your 'Press Start 2P' stays
     });
 
-    // 2. Create a proper File object
-    const file = new File([blob], 'souldex-result.png', { type: 'image/png' });
+    const file = new File([blob], 'souldex.png', { type: 'image/png' });
 
-    // 3. ENHANCED CHECK: Specifically check if FILE sharing is supported
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    // 2. The critical check
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
       await navigator.share({
-        files: [file], // The image file
-        title: 'My Souldex Result',
-        text: 'Check out my mental age analysis from Souldex!',
+        files: [file],
+        title: 'Souldex Result',
+        text: 'My Mental Age Analysis',
       });
     } else {
-      // 4. FALLBACK: Desktop/PC behavior (Download)
-      const link = document.createElement('a');
-      link.download = 'souldex-result.png';
-      link.href = URL.createObjectURL(blob);
-      link.click();
+      // If we are here, the browser explicitly said "No" to file sharing
+      throw new Error("Files not supported"); 
     }
   } catch (err) {
-    console.error('Sharing failed', err);
-    alert("Sharing failed. Try downloading the image instead.");
+    console.log("Switching to download fallback...");
+    triggerDownload(); // Only call this if sharing is actually impossible
   }
+};
+
+// Separate function to keep things clean
+const triggerDownload = (blob) => {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'souldex-result.png';
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+// Helper function for the fallback
+const downloadImage = (blob) => {
+  const link = document.createElement('a');
+  link.download = 'souldex-result.png';
+  link.href = URL.createObjectURL(blob);
+  link.click();
 };
   return (
     <div className="relative min-h-screen pb-20">
