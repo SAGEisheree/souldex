@@ -1,10 +1,10 @@
 import React from 'react'
-import MentalForm from './mentalForm'
+import FriendForm from '../friend/friendForm'
 import { Link } from "react-router-dom";
-import Navbar from "./navbar";
+import Navbar from "../navbar";
 
 
-const MentalAge = () => {
+const Friend = () => {
   return (
     <div>
 
@@ -15,11 +15,11 @@ const MentalAge = () => {
 
 
       <div className=''>
-        <MentalForm />
+        <FriendForm />
       </div>
 
     </div>
   )
 }
 
-export default MentalAge
+export default Friend

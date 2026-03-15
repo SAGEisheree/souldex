@@ -6,15 +6,10 @@ import Navbar from "./navbar";
 
 const HomePage = () => (
   <>
+    <div className="relative min-h-screen bg-base-100" data-theme="souldexTheme">
 
-    <div className="-z-10 absolute opacity-50 inset-0 bg-[linear-gradient(to_right,#ffffff99_1px,transparent_1px),linear-gradient(to_bottom,#ffffff99_1px,transparent_1px)] bg-[size:60px_60px]">
-    </div>
-    <div className="relative min-h-screen bg-base-100  " data-theme="souldexTheme">
-
-
-
-
-
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-50 bg-[linear-gradient(to_right,#ffffff99_1px,transparent_1px),linear-gradient(to_bottom,#ffffff99_1px,transparent_1px)] bg-[size:60px_60px]">
+      </div>
 
       <Navbar />
 
@@ -79,13 +74,13 @@ const HomePage = () => (
 
               <div className="flex items-center gap-4">
                 <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-300 text-3xl shadow-inner">
-                  ?
+                  💙
                 </span>
-                <h3 className="text-xl font-bold ">?????</h3>
+                <h3 className="text-xl font-bold ">Friendship test</h3>
               </div>
 
               <p className="text-s text-blue-900 leading-relaxed">
-                Coming soon !!!  ..........................
+                Check if your friend is real friend or a snake
               </p>
 
               <img
@@ -96,6 +91,7 @@ const HomePage = () => (
 
               <div className="card-actions mt-4">
                 <Link
+                  to="/friend"
                   className="btn btn-primary btn-md btn-block rounded-xl font-bold shadow-lg hover:scale-105 transition-transform"
                 >
                   Start test
@@ -111,11 +107,7 @@ const HomePage = () => (
           {/* Add more cards here following the same 'article' pattern */}
 
         </section>
-        <img
-          src={lala}
-          alt=""
-          className="absolute bottom-0 left-0 aspect-video h-full opacity-10 -z-10 "
-        />
+
       </main>
 
     </div>
