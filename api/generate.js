@@ -23,12 +23,11 @@ export default async function handler(req, res) {
           
           FORMATTING RULES:
           - DO NOT USE TABLES.
-          - Use Markdown headers (##) for sections.
-          - Use bold text (**) for emphasis.
+          - Use bold text (*) for emphasis.
           - Provide exactly:
-            1. **Mental Age:** A clear age estimate.
-            2. **Strengths & Weaknesses:** 1-2 concise lines.
-            3. **Growth Roadmap:** 2-3 lines of personality suggestions.`
+            1. *Mental Age:* A clear age estimate.
+            2. *Strengths & Weaknesses:** 14 words maximum.
+            3. *How to improve:* 20 words maximum.`
         },
         {
           role: "user",

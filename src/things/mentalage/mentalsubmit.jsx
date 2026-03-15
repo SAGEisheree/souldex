@@ -51,7 +51,16 @@ const MentalSubmit = () => {
       if (navigator.share) {
         await navigator.share({
           title: 'Souldex Result',
-          text: `My Mental Age Analysis:\n\n${analysis}`,
+          text: `My Mental Age Analysis:\n\n${analysis}
+          
+          
+          
+          
+          
+          
+          
+          \n\n Test your mental age at souldex.vercel.app
+          `,
         });
       } else {
         console.log("Web Share API not supported");
@@ -75,15 +84,15 @@ const MentalSubmit = () => {
             </div>
           ) : analysis ? (
             <div className="prose prose-slate max-w-none bg-cyan-600/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/20">
-              <h1 className="text-2xl font-black text-primary mb-2">My Mental age by souldex- </h1>
+              <h1 className="text-2xl font-black text-primary mb-2">Mental age by souldex- </h1>
               <div className="h-1 w-20 bg-primary mb-6 rounded-full"></div>
               <ReactMarkdown>{analysis}</ReactMarkdown>
 
-              <div className='mt-10 border-black border-t-2 w-fill text-2xl'>Test Your Mental age at [ souldex.vercel.app ]
-              </div>
+
             </div>
           ) : (
-            <div className="text-center py-10 bg-white/20 rounded-3xl backdrop-blur-md">
+            <div className="tex              <div className='mt-10 border-black border-t-2 w-fill text-2xl'>Test Your Mental age at [ souldex.vercel.app ]
+              </div>t-center py-10 bg-white/20 rounded-3xl backdrop-blur-md">
               <p className="text-lg text-white font-medium">Session expired or no data found.</p>
               <button onClick={() => navigate('/')} className="btn btn-primary mt-4">Start New Quiz</button>
             </div>
