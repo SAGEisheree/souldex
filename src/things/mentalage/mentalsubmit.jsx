@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import Navbar from "../navbar.jsx";
+
+
 const MentalSubmit = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,12 +55,7 @@ const MentalSubmit = () => {
           title: 'Souldex Result',
           text: `My Mental Age Analysis:\n\n${analysis}
           
-          
-          
-          
-          
-          
-          
+
           \n\n Test your mental age at souldex.vercel.app
           `,
         });

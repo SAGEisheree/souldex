@@ -18,7 +18,7 @@ const FriendSubmit = () => {
 
     setLoading(true);
     try {
-      const response = await fetch('/api/generate', {
+      const response = await fetch('/api/friendapi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quizData: quizData })
@@ -53,7 +53,7 @@ const FriendSubmit = () => {
       if (navigator.share) {
         await navigator.share({
           title: 'Souldex Result',
-          text: `My Mental Age Analysis:\n\n${analysis}`,
+          text: `About my friend:\n\n${analysis}`,
         });
       } else {
         console.log("Web Share API not supported");
@@ -73,16 +73,15 @@ const FriendSubmit = () => {
           {loading ? (
             <div className="flex flex-col items-center py-20">
               <span className="loading loading-spinner loading-lg text-white"></span>
-              <p className="mt-4 text-white font-bold animate-pulse">Calculating your age...</p>
+              <p className="mt-4 text-white font-bold animate-pulse">Analyzing data...</p>
             </div>
           ) : analysis ? (
             <div className="prose prose-slate max-w-none bg-cyan-600/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/20">
-              <h1 className="text-2xl font-black text-primary mb-2">My Mental age by souldex- </h1>
+              <h1 className="text-2xl font-black text-primary mb-2">About my friend- </h1>
               <div className="h-1 w-20 bg-primary mb-6 rounded-full"></div>
               <ReactMarkdown>{analysis}</ReactMarkdown>
 
-              <div className='mt-10 border-black border-t-2 w-fill text-2xl'>Test Your Mental age at [ souldex.vercel.app ]
-              </div>
+
             </div>
           ) : (
             <div className="text-center py-10 bg-white/20 rounded-3xl backdrop-blur-md">

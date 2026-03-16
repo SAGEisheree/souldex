@@ -7,7 +7,7 @@ import MentalAge from "./things/mentalage/mentalAge.jsx";
 import MentalSubmit from "./things/mentalage/mentalsubmit.jsx";
 
 import Friend from "./things/friend/friend.jsx";
-import friendSubmit from "./things/friend/friendSubmit.jsx";
+import FriendSubmit from "./things/friend/friendSubmit.jsx";
 
 const App = () => {
   return (
@@ -16,12 +16,13 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/mentalage" element={<MentalAge />} />
-        <Route path="/mentalsubmit" element={<MentalSubmit />} />
         <Route path="/about" element={<About />} />
 
+        <Route path="/mentalage" element={<MentalAge />} />
+        <Route path="/mentalsubmit" element={<MentalSubmit />} />
+
         <Route path="/friend" element={<Friend />} />
-        <Route path="/friendsubmit" element={<friendSubmit />} />
+        <Route path="/friendsubmit" element={<FriendSubmit />} />
       </Routes>
     </>
   );

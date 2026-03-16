@@ -1,151 +1,138 @@
-import React from 'react'
-import { useState } from 'react';
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const FriendForm = () => {
-
   const navigate = useNavigate();
+
+  // --- 1. QUIZ DATA ---
   const quizData = [
-    {
-      "id": 1,
-      "question": "If you tell them a secret, does it stay private?",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 2,
-      "question": "Do they celebrate your wins without making it a competition?",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 3,
-      "question": "Do they share their goals and things they are learning",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 4,
-      "question": "Do they apologize sincerely when they mess up?",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 5,
-      "question": "Does your mood usually improve after hanging out with them?",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 6,
-      "question": "Can you sit in silence with them without it feeling awkward?",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 7,
-      "question": "Do they respect your boundaries when you deny to share private info?",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 8,
-      "question": "Are they there for you during hard times, not just the fun ones?",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 9,
-      "question": "Do they listen more than they interrupt?",
-      "options": ["Yes", "No"]
-    },
-    {
-      "id": 10,
-      "question": "Can you disagree with them without them attacking your character?",
-      "options": ["Yes", "No"]
-    }
+    { id: 1, question: "If you tell them a secret, does it stay private?", options: ["Yes", "No"] },
+    { id: 2, question: "Do they celebrate your wins without making it a competition?", options: ["Yes", "No"] },
+    { id: 3, question: "Do they share their goals and things they are learning", options: ["Yes", "No"] },
+    { id: 4, question: "Do they apologize sincerely when they mess up?", options: ["Yes", "No"] },
+    { id: 5, question: "Does your mood usually improve after hanging out with them?", options: ["Yes", "No"] },
+    { id: 6, question: "Can you sit in silence with them without it feeling awkward?", options: ["Yes", "No"] },
+    { id: 7, question: "Do they respect your boundaries when you deny to share private info?", options: ["Yes", "No"] },
+    { id: 8, question: "Are they there for you during hard times, not just the fun ones?", options: ["Yes", "No"] },
+    { id: 9, question: "Do they listen more than they interrupt?", options: ["Yes", "No"] },
+    { id: 10, question: "Can you disagree with them without them attacking your character?", options: ["Yes", "No"] }
   ];
 
+  // --- 2. STATE ---
+  // Ensure this is exactly "naming" so it starts on the first screen
+  const [step, setStep] = useState("naming"); 
+  const [friendName, setFriendName] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [allAnswers, setAllAnswers] = useState([]);
-  const isLastQuestion = currentIndex === quizData.length - 1;
+
   const current = quizData[currentIndex];
+  const isLastQuestion = currentIndex === quizData.length - 1;
 
-  const handleNext = () => {
-
-    const currentAnswer = [
-      {
-        id: current.id,
-        question: current.question,
-        answer: selectedAnswer
-      }
-    ];
-
-    const updatedAnswers = [...allAnswers, currentAnswer]
-
-    if (isLastQuestion) {
-      console.log("Final Submission");
-      navigate('/friendsubmit', { state: { results: updatedAnswers } });
-    } else {
-      setAllAnswers(updatedAnswers)
-      setCurrentIndex(prev => prev + 1);
-      setSelectedAnswer("");
-
+  // --- 3. HANDLERS ---
+  const handleStartQuiz = () => {
+    if (friendName.trim().length > 0) {
+      setStep("quiz"); // This switches the UI to the questions
     }
   };
 
+  const handleNext = () => {
+    if (!selectedAnswer) return;
+
+    const currentAnswer = {
+      id: current.id,
+      question: current.question,
+      answer: selectedAnswer
+    };
+
+    const updatedAnswers = [...allAnswers, currentAnswer];
+
+    if (isLastQuestion) {
+      navigate('/friendsubmit', { 
+        state: { 
+          friendName: friendName, 
+          results: updatedAnswers 
+        } 
+      });
+    } else {
+      setAllAnswers(updatedAnswers);
+      setCurrentIndex(prev => prev + 1);
+      setSelectedAnswer("");
+    }
+  };
+
+  // --- 4. RENDER ---
   return (
-    <div className="flex justify-center  p-4 max-md:p-3 md:p-8">
-      {/* DaisyUI Card Component */}
-      <div className="card  bg-base-100 shadow-xl border border-base-300">
+    <div className="flex justify-center p-4 md:p-8">
+      <div className="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
         <div className="card-body">
-
-          {/* Progress badge */}
-          <div className="flex justify-between items-center mb-4">
-            <span className="badge badge-primary badge-outline font-mono">
-              {currentIndex + 1} / {quizData.length}
-            </span>
-          </div>
-
-          {/* Question Text */}
-          <h2 className="card-title text-lg md:text-xl mb-6">{current.question}</h2>
-
-          {/* Options List */}
-          <div className="form-control space-y-2">
-            {current.options.map((option, idx) => (
-              <label
-                key={idx}
-                className={`label cursor-pointer p-3 md:p-4 rounded-lg border border-base-300 transition-colors hover:bg-base-200 ${selectedAnswer === option ? "bg-base-200 border-primary shadow-inner" : ""
-                  }`}
-              >
-                <span className="label-text text-sm md:text-base font-medium">{option}</span>
-                <input
-                  type="radio"
-                  name="quiz-option"
-                  className="radio radio-primary"
-                  checked={selectedAnswer === option}
-                  onChange={() => setSelectedAnswer(option)}
+          
+          {/* STEP 1: NAME INPUT */}
+          {step === "naming" && (
+            <div className="space-y-4">
+              <h2 className="card-title text-2xl font-bold">New Analysis</h2>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text font-medium">What is the name of your friend?</span>
+                </label>
+                <input 
+                  type="text" 
+                  autoFocus
+                  placeholder="Enter name..." 
+                  className="input input-bordered input-primary w-full" 
+                  value={friendName}
+                  onChange={(e) => setFriendName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleStartQuiz()}
                 />
-              </label>
-            ))}
-          </div>
+              </div>
+              <button 
+                className="btn btn-primary btn-block mt-4"
+                disabled={!friendName.trim()} 
+                onClick={handleStartQuiz}
+              >
+                Start Quiz
+              </button>
+            </div>
+          )}
 
-          {/* Action Button */}
-          <div className="card-actions mt-8">
+          {/* STEP 2: THE QUIZ */}
+          {step === "quiz" && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <span className="badge badge-outline">{currentIndex + 1} / {quizData.length}</span>
+                <span className="text-xs opacity-60">Analyzing: <b>{friendName}</b></span>
+              </div>
 
-            <button
-              onClick={handleNext}
-              disabled={!selectedAnswer}
-              className={`btn btn-block shadow-md ${isLastQuestion ? "btn-success" : "btn-primary"
-                }`}
-            >
-              {isLastQuestion ? "Submit Answer" : "Next Question"}
-            </button>
+              <h2 className="card-title text-lg min-h-[60px]">{current.question}</h2>
 
-          </div>
+              <div className="space-y-2">
+                {current.options.map((option, idx) => (
+                  <label key={idx} className={`label cursor-pointer p-4 border rounded-xl transition-all ${selectedAnswer === option ? "bg-primary/10 border-primary" : "border-base-300"}`}>
+                    <span className="label-text font-medium">{option}</span>
+                    <input 
+                      type="radio" 
+                      className="radio radio-primary" 
+                      checked={selectedAnswer === option}
+                      onChange={() => setSelectedAnswer(option)} 
+                    />
+                  </label>
+                ))}
+              </div>
+
+              <button 
+                className={`btn btn-block ${isLastQuestion ? "btn-success" : "btn-primary"}`}
+                disabled={!selectedAnswer}
+                onClick={handleNext}
+              >
+                {isLastQuestion ? "Finish" : "Next"}
+              </button>
+            </div>
+          )}
 
         </div>
       </div>
     </div>
   );
+};
 
-
-}
-
-export default FriendForm
-
-
+export default FriendForm;
