@@ -18,23 +18,16 @@ export default async function handler(req, res) {
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         {
-          role: "system",
-          content: `You are an expert psychologist. Analyze the quiz results to determine a mental age. 
-          
-          FORMATTING RULES:
-          - DO NOT USE TABLES.
-          - Use bold text (*) for emphasis.
-          - Provide exactly:
-            1. *Mental Age:* A clear age estimate.
-            2. *Strengths & Weaknesses:** 14 words maximum.
-            3. *How to improve:* 20 words maximum.`
+           role: "system",
+          content: ` analyse the data and give 2 or 3 lines short summary mentioning the name of person
+          `
         },
         {
           role: "user",
           content: `Analyze this quiz data: ${JSON.stringify(quizData.results)}`
         },
       ],
-      model: "openai/gpt-oss-20b",
+      model: "meta-llama/llama-4-scout-17b-16e-instruct",
       temperature: 0.6,
       max_tokens: 500,
     });
