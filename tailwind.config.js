@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'souldex-blue': '#45BFDB',
+        'souldex-blue': '#57c5e8',
       },
     },
   },
@@ -14,7 +14,7 @@ module.exports = {
       {
         goodnotes: {
           /* The Main Canvas */
-          "base-100": "#45BFDB",         // The plane blue background
+          "base-100": "#57c5e8",         // The plane blue background
           "base-200": "#ffffff",         // Solid white for cards/bubbles
           "base-content": "#000000",     // ALL general text is now BLACK
 

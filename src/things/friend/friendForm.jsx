@@ -5,19 +5,58 @@ const FriendForm = () => {
   const navigate = useNavigate();
 
   // --- 1. QUIZ DATA ---
-  const quizData = [
-    { id: 1, question: "If you tell them a secret, does it stay private?", options: ["Yes", "No"] },
-    { id: 2, question: "Do they celebrate your wins without making it a competition?", options: ["Yes", "No"] },
-    { id: 3, question: "Do they share their goals and things they are learning", options: ["Yes", "No"] },
-    { id: 4, question: "Do they apologize sincerely when they mess up?", options: ["Yes", "No"] },
-    { id: 5, question: "Does your mood usually improve after hanging out with them?", options: ["Yes", "No"] },
-    { id: 6, question: "Can you sit in silence with them without it feeling awkward?", options: ["Yes", "No"] },
-    { id: 7, question: "Do they respect your boundaries when you deny to share private info?", options: ["Yes", "No"] },
-    { id: 8, question: "Are they there for you during hard times, not just the fun ones?", options: ["Yes", "No"] },
-    { id: 9, question: "Do they listen more than they interrupt?", options: ["Yes", "No"] },
-    { id: 10, question: "Can you disagree with them without them attacking your character?", options: ["Yes", "No"] }
-  ];
-
+const quizData = [
+  { 
+    id: 1, 
+    question: "Do they say good things about you even when you are not there?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 2, 
+    question: "Are they truly happy for you when something good happens to you?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 3, 
+    question: "Can you tell them your mistakes without them using it against you later?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 4, 
+    question: "Do they actually do the things they promise to do?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 5, 
+    question: "When there is a problem, do they try to fix it instead of getting angry?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 6, 
+    question: "Can you say 'no' to them without feeling bad or guilty?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 7, 
+    question: "Do both of you put the same amount of work into the friendship?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 8, 
+    question: "Do they remember the small things that are important to you?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 9, 
+    question: "Do they support you when you want to change or improve your life?", 
+    options: ["Yes", "No"]
+  },
+  { 
+    id: 10, 
+    question: "Do you feel happy and full of energy after you spend time with them?", 
+    options: ["Yes", "No"]
+  }
+];
   // --- 2. STATE ---
   // Ensure this is exactly "naming" so it starts on the first screen
   const [step, setStep] = useState("naming"); 

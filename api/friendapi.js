@@ -14,17 +14,23 @@ export default async function handler(req, res) {
 
   try {
     const { quizData } = req.body;
+    const friendName = quizData?.friendName || "my friend";
+    const results = quizData?.results || [];
 
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         {
            role: "system",
-          content: ` analyse the data and give 2 or 3 lines short summary mentioning the name of person
+          content: ` analyse the data and give 2 or 3 lines short summary
           `
         },
         {
           role: "user",
-          content: `Analyze this quiz data: ${JSON.stringify(quizData.results)}`
+          content: `Analyze my friend "${friendName}" based on this quiz data: ${JSON.stringify(results)} 
+          and give a 3-4 line summary about them. Give good things and bad things about them. Be honest and straightforward. Dont be too nice and be little bit funny. 
+          Mention "${friendName}" in the summary. Dont say "your friend" or "they". Use their name. Make it sound like a real analysis of a real person.
+          
+          `
         },
       ],
       model: "meta-llama/llama-4-scout-17b-16e-instruct",

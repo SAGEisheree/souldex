@@ -9,6 +9,7 @@ const FriendSubmit = () => {
   const navigate = useNavigate();
 
   const [quizData] = useState(location.state);
+  const friendName = quizData?.friendName || "friend";
 
   const [analysis, setAnalysis] = useState("");
   const [loading, setLoading] = useState(false);
@@ -53,7 +54,7 @@ const FriendSubmit = () => {
       if (navigator.share) {
         await navigator.share({
           title: 'Souldex Result',
-          text: `About my friend:\n\n${analysis}`,
+          text: `About my ${friendName}:\n\n${analysis}`,
         });
       } else {
         console.log("Web Share API not supported");
@@ -77,7 +78,7 @@ const FriendSubmit = () => {
             </div>
           ) : analysis ? (
             <div className="prose prose-slate max-w-none bg-cyan-600/20 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white/20">
-              <h1 className="text-2xl font-black text-primary mb-2">About my friend- </h1>
+              <h1 className="text-2xl font-black text-primary mb-2">About {friendName} </h1>
               <div className="h-1 w-20 bg-primary mb-6 rounded-full"></div>
               <ReactMarkdown>{analysis}</ReactMarkdown>
 
