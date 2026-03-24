@@ -9,52 +9,52 @@ const quizData = [
   { 
     id: 1, 
     question: "Do they say good things about you even when you are not there?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   },
   { 
     id: 2, 
     question: "Are they truly happy for you when something good happens to you?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   },
   { 
     id: 3, 
     question: "Can you tell them your mistakes without them using it against you later?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   },
   { 
     id: 4, 
     question: "Do they actually do the things they promise to do?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   },
   { 
     id: 5, 
     question: "When there is a problem, do they try to fix it instead of getting angry?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe",   "No"]
   },
   { 
     id: 6, 
     question: "Can you say 'no' to them without feeling bad or guilty?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   },
   { 
     id: 7, 
     question: "Do both of you put the same amount of work into the friendship?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   },
   { 
     id: 8, 
     question: "Do they remember the small things that are important to you?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   },
   { 
     id: 9, 
     question: "Do they support you when you want to change or improve your life?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   },
   { 
     id: 10, 
     question: "Do you feel happy and full of energy after you spend time with them?", 
-    options: ["Yes", "No"]
+    options: ["Yes","Maybe", "No"]
   }
 ];
   // --- 2. STATE ---

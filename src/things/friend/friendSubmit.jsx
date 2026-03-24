@@ -54,7 +54,7 @@ const FriendSubmit = () => {
       if (navigator.share) {
         await navigator.share({
           title: 'Souldex Result',
-          text: `About my ${friendName}:\n\n${analysis}`,
+          text: `About my ${friendName}:\n\n${analysis}\n\nTest your friend at [souldex.vercel.app]`,
         });
       } else {
         console.log("Web Share API not supported");

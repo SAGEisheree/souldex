@@ -29,7 +29,7 @@ export default async function handler(req, res) {
           content: `Analyze my friend "${friendName}" based on this quiz data: ${JSON.stringify(results)} 
           and give a 3-4 line summary about them. Give good things and bad things about them. Be honest and straightforward. Dont be too nice and be little bit funny. 
           Mention "${friendName}" in the summary. Dont say "your friend" or "they". Use their name. Make it sound like a real analysis of a real person.
-          
+          Keep the answer strictly less than 60 words. Dont exceed 60 words. Dont say "word limit exceeded" or anything like that. Just give a concise summary in less than 60 words.
           `
         },
       ],
